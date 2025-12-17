@@ -33,13 +33,15 @@ class LLMService:
         self._model_name = model_name
         self._temperature = temperature
         
-        # Obtener configuración
+        # Obtener configuración desde variables de entorno (cargadas del Secret Manager)
         resolved_project = project_id or os.environ.get("GOOGLE_CLOUD_PROJECT") or os.environ.get("PROJECT_ID")
-        resolved_location = location or os.environ.get("GOOGLE_CLOUD_LOCATION", "us-central1")
+        resolved_location = location or os.environ.get("GOOGLE_CLOUD_LOCATION")
         resolved_api_key = os.environ.get("GOOGLE_API_KEY")
         
         # Configurar cliente - preferir Vertex AI (ADC), fallback a API key
         if resolved_project:
+            if not resolved_location:
+                raise EnvironmentError("GOOGLE_CLOUD_LOCATION no está configurado")
             try:
                 self._client = genai.Client(
                     vertexai=True,
