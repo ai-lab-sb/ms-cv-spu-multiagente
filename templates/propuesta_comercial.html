@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Propuesta Comercial ARL - {{ cliente.nombre_empresa }}</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 1.5cm;
+            margin-top: 2cm;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fff;
+            color: #333;
+            font-size: 11px;
+            line-height: 1.4;
+        }
+
+        /* Header */
+        .header-main {
+            background: linear-gradient(135deg, #168a56 0%, #0d5c3a 100%);
+            color: #fff;
+            padding: 25px 20px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .header-main h1 {
+            font-size: 22px;
+            margin: 0;
+            font-weight: 600;
+        }
+
+        .header-main .subtitle {
+            font-size: 14px;
+            color: #FFDC5D;
+            margin-top: 5px;
+        }
+
+        .header-main .company-name {
+            font-size: 18px;
+            color: #fff;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        /* Secciones */
+        .section {
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+            margin-bottom: 15px;
+            border-left: 4px solid #168a56;
+        }
+
+        .section-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: #168a56;
+            border-bottom: 2px solid #FFDC5D;
+            padding-bottom: 8px;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+        }
+
+        /* Info Grid */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .info-item {
+            padding: 8px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+        }
+
+        .info-label {
+            font-size: 10px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .info-value {
+            font-size: 12px;
+            font-weight: 600;
+            color: #333;
+            margin-top: 2px;
+        }
+
+        /* Presupuesto destacado */
+        .presupuesto-card {
+            background: linear-gradient(135deg, #168a56 0%, #1a9e62 100%);
+            color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .presupuesto-title {
+            font-size: 12px;
+            color: #FFDC5D;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .presupuesto-valor {
+            font-size: 28px;
+            font-weight: bold;
+            margin: 8px 0;
+        }
+
+        .presupuesto-subtitle {
+            font-size: 11px;
+            opacity: 0.9;
+        }
+
+        .presupuesto-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .presupuesto-item {
+            background-color: rgba(255,255,255,0.15);
+            padding: 10px;
+            border-radius: 6px;
+        }
+
+        .presupuesto-item-label {
+            font-size: 9px;
+            opacity: 0.8;
+            text-transform: uppercase;
+        }
+
+        .presupuesto-item-value {
+            font-size: 14px;
+            font-weight: bold;
+            margin-top: 4px;
+        }
+
+        /* Tablas de productos */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            font-size: 10px;
+        }
+
+        thead tr {
+            background-color: #168a56;
+            color: #fff;
+        }
+
+        th {
+            padding: 10px 8px;
+            text-align: left;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 9px;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 8px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        tbody tr:hover {
+            background-color: #e9f7ef;
+        }
+
+        .text-right {
+            text-align: right;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .total-row {
+            background-color: #168a56 !important;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        /* Valores agregados */
+        .valores-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+
+        .valor-agregado-item {
+            background-color: #f0f9f4;
+            border: 1px solid #c3e6cb;
+            border-radius: 6px;
+            padding: 10px;
+            font-size: 10px;
+        }
+
+        .valor-agregado-item .tema {
+            font-weight: 600;
+            color: #168a56;
+            margin-bottom: 3px;
+        }
+
+        .valor-agregado-item .desc {
+            color: #666;
+            font-size: 9px;
+        }
+
+        /* Riesgos y obligaciones */
+        .risk-badge {
+            display: inline-block;
+            background-color: #FFDC5D;
+            color: #333;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+
+        .obligation-item {
+            padding: 8px 12px;
+            background-color: #f8f9fa;
+            border-left: 3px solid #168a56;
+            margin-bottom: 6px;
+            font-size: 10px;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 20px;
+            padding: 15px;
+            text-align: center;
+            font-size: 10px;
+            color: #666;
+            border-top: 2px solid #168a56;
+        }
+
+        .footer .logo-text {
+            font-size: 14px;
+            font-weight: bold;
+            color: #168a56;
+        }
+
+        /* Page breaks */
+        .page-break {
+            page-break-before: always;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Principal -->
+    <div class="header-main">
+        <h1>PROPUESTA COMERCIAL ARL</h1>
+        <div class="subtitle">Servicios de Prevención y Seguridad en el Trabajo</div>
+        <div class="company-name">{{ cliente.nombre_empresa | safe_value }}</div>
+    </div>
+
+    <!-- Información del Cliente -->
+    <div class="section">
+        <div class="section-title">📋 Información del Cliente</div>
+        <div class="info-grid">
+            <div class="info-item">
+                <div class="info-label">Empresa</div>
+                <div class="info-value">{{ cliente.nombre_empresa | safe_value }}</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Código CIIU</div>
+                <div class="info-value">{{ cliente.codigo_ciiu | safe_value }}</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Número de Empleados</div>
+                <div class="info-value">{{ cliente.numero_empleados | safe_value }}</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Enfoque Prioritario</div>
+                <div class="info-value">{{ cliente.enfoque_prioritario | safe_value }}</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Perfil de Riesgo -->
+    <div class="section">
+        <div class="section-title">🎯 Perfil de Riesgo</div>
+        <p><strong>Clasificación:</strong> {{ perfil.clase_riesgo | safe_value }}</p>
+        
+        <p><strong>Riesgos Generales Identificados:</strong></p>
+        <div>
+            {% for riesgo in perfil.riesgos_generales %}
+            <span class="risk-badge">{{ riesgo }}</span>
+            {% endfor %}
+        </div>
+        
+        <p style="margin-top: 15px;"><strong>Obligaciones Legales:</strong></p>
+        {% for obligacion in perfil.obligaciones_legales %}
+        <div class="obligation-item">{{ obligacion }}</div>
+        {% endfor %}
+    </div>
+
+    <!-- Resumen Presupuesto -->
+    <div class="presupuesto-card">
+        <div class="presupuesto-title">Presupuesto Anual Disponible</div>
+        <div class="presupuesto-valor">{{ presupuesto.presupuesto_anual | format_currency }}</div>
+        <div class="presupuesto-subtitle">
+            Aportes mensuales: {{ presupuesto.aportes_mensuales | format_currency }} × 12 × {{ presupuesto.porcentaje_reinversion }}%
+        </div>
+        <div class="presupuesto-grid">
+            <div class="presupuesto-item">
+                <div class="presupuesto-item-label">Total Invertido</div>
+                <div class="presupuesto-item-value">{{ presupuesto.total_productos | format_currency }}</div>
+            </div>
+            <div class="presupuesto-item">
+                <div class="presupuesto-item-label">Saldo Restante</div>
+                <div class="presupuesto-item-value">{{ presupuesto.saldo_restante | format_currency }}</div>
+            </div>
+            <div class="presupuesto-item">
+                <div class="presupuesto-item-label">% Utilizado</div>
+                <div class="presupuesto-item-value">{{ "%.1f"|format(presupuesto.porcentaje_utilizado|default(0)) }}%</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Productos Obligatorios -->
+    <div class="section page-break">
+        <div class="section-title">📦 Productos Obligatorios</div>
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 25%;">Categoría</th>
+                    <th style="width: 35%;">Descripción</th>
+                    <th class="text-right">Tarifa/Hr</th>
+                    <th class="text-center">Horas</th>
+                    <th class="text-right">Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for producto in obligatorios %}
+                <tr>
+                    <td>{{ producto.subcategoria | safe_value('General') }}</td>
+                    <td>{{ producto.descripcion_programas_de_prevencion | safe_value }}</td>
+                    <td class="text-right">{{ producto.tarifa_hora | format_currency }}</td>
+                    <td class="text-center">{{ producto.horas_asignadas | safe_value(0) }}</td>
+                    <td class="text-right">{{ producto.subtotal | format_currency }}</td>
+                </tr>
+                {% endfor %}
+                <tr class="total-row">
+                    <td colspan="4">Total Productos Obligatorios</td>
+                    <td class="text-right">{{ presupuesto.total_productos_obligatorios | format_currency }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Productos Prioritarios -->
+    <div class="section">
+        <div class="section-title">⭐ Productos Prioritarios</div>
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 25%;">Categoría</th>
+                    <th style="width: 35%;">Descripción</th>
+                    <th class="text-right">Tarifa/Hr</th>
+                    <th class="text-center">Horas</th>
+                    <th class="text-right">Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for producto in prioritarios %}
+                <tr>
+                    <td>{{ producto.subcategoria | safe_value('General') }}</td>
+                    <td>{{ producto.descripcion_programas_de_prevencion | safe_value }}</td>
+                    <td class="text-right">{{ producto.tarifa_hora | format_currency }}</td>
+                    <td class="text-center">{{ producto.horas_asignadas | safe_value(0) }}</td>
+                    <td class="text-right">{{ producto.subtotal | format_currency }}</td>
+                </tr>
+                {% endfor %}
+                <tr class="total-row">
+                    <td colspan="4">Total Productos Prioritarios</td>
+                    <td class="text-right">{{ presupuesto.total_productos_prioritarios | format_currency }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Valores Agregados -->
+    <div class="section page-break">
+        <div class="section-title">🎁 Valores Agregados (Sin Costo)</div>
+        <p style="color: #666; font-size: 10px; margin-bottom: 12px;">
+            Los siguientes servicios se incluyen como beneficio adicional sin afectar su presupuesto de reinversión.
+        </p>
+        <div class="valores-grid">
+            {% for valor in valores %}
+            <div class="valor-agregado-item">
+                <div class="tema">{{ valor.tema | safe_value }}</div>
+                <div class="desc">{{ valor.descripcion_programas_de_prevencion | safe_value }}</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <div class="logo-text">ARL SEGUROS BOLÍVAR</div>
+        <p>Propuesta generada el {{ meta.fecha_generacion | safe_value }} | Versión {{ meta.version | safe_value('1.0') }}</p>
+        <p style="margin-top: 5px; font-style: italic;">
+            Esta propuesta fue elaborada considerando el perfil de riesgo específico de su empresa
+            y las obligaciones legales aplicables según la normativa colombiana en SST.
+        </p>
+    </div>
+
+</body>
+</html>
+
