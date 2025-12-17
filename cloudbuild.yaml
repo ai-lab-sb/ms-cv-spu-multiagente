@@ -1,5 +1,5 @@
 substitutions:
-  _SERVICE: "ms-cv-spu-multiagente-dev"
+  _SERVICE: "ms-cv-spu-multiagente"
   _LOCATION: "us-central1"
   _REPO: "cloud-run-source-deploy"
 
