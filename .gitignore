@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+.env
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Secrets
+*.json
+!package.json
+
+# Generated files
+*.pdf
+output/
+debug_*.txt
+
+# Test files
+test_*.py
+main_local.py
+

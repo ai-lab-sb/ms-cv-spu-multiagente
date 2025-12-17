@@ -1,0 +1,44 @@
+substitutions:
+  _SERVICE: "ms-cv-spu-multiagente-dev"
+  _LOCATION: "us-central1"
+  _REPO: "cloud-run-source-deploy"
+
+steps:
+  # Build Docker image
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - build
+      - -t
+      - '${_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${_REPO}/${_SERVICE}:${BUILD_ID}'
+      - .
+
+  # Push to Artifact Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - push
+      - '${_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${_REPO}/${_SERVICE}:${BUILD_ID}'
+
+  # Deploy to Cloud Run
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args:
+      - run
+      - deploy
+      - '${_SERVICE}'
+      - '--image=${_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${_REPO}/${_SERVICE}:${BUILD_ID}'
+      - '--region=${_LOCATION}'
+      - '--platform=managed'
+      - '--allow-unauthenticated'
+      - '--memory=2Gi'
+      - '--cpu=2'
+      - '--timeout=600s'
+      - '--max-instances=10'
+      - '--set-env-vars=GOOGLE_CLOUD_PROJECT=${PROJECT_ID},GOOGLE_CLOUD_LOCATION=${_LOCATION}'
+      - '--service-account=servicio-general-dev@sb-iacorredores-dev.iam.gserviceaccount.com'
+      - '--labels=billing_tag=spu-multiagente,componente=ms,team=canales-venta,tipo=iniciativa-hackaton,vp=corredores'
+
+images:
+  - '${_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${_REPO}/${_SERVICE}:${BUILD_ID}'
+
+options:
+  logging: CLOUD_LOGGING_ONLY
+
