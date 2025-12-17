@@ -11,7 +11,11 @@ def load_secrets_from_json():
     Carga secrets desde Secret Manager y los establece como variables de entorno.
     El secret debe ser un JSON con pares clave-valor.
     """
-    project_id = os.environ.get("GOOGLE_CLOUD_PROJECT", "sb-iacorredores-dev")
+    # El project_id viene de la variable de entorno configurada en Cloud Run
+    project_id = os.environ.get("GOOGLE_CLOUD_PROJECT")
+    if not project_id:
+        raise EnvironmentError("GOOGLE_CLOUD_PROJECT no está configurado")
+    
     secret_id = "spu-multiagente"  # Nombre del secret en Secret Manager
     version_id = "latest"
 

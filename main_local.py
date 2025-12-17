@@ -18,11 +18,12 @@ from datetime import datetime
 from dotenv import load_dotenv
 load_dotenv()
 
-# Configurar proyecto si no está definido
+# Configurar proyecto si no está definido (para pruebas locales)
+# Estos valores son solo para desarrollo local, en Cloud Run vienen del cloudbuild.yaml
 if not os.environ.get("GOOGLE_CLOUD_PROJECT"):
-    os.environ["GOOGLE_CLOUD_PROJECT"] = "sb-iacorredores-stage"
+    os.environ["GOOGLE_CLOUD_PROJECT"] = os.environ.get("GCP_PROJECT", "sb-iacorredores-dev")
 if not os.environ.get("GOOGLE_CLOUD_LOCATION"):
-    os.environ["GOOGLE_CLOUD_LOCATION"] = "us-central1"
+    os.environ["GOOGLE_CLOUD_LOCATION"] = os.environ.get("GCP_LOCATION", "us-central1")
 
 print("=" * 60)
 print("🚀 MS-CV-SPU-MULTIAGENTE - Prueba Local")
