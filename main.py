@@ -18,7 +18,7 @@ try:
     from load_secrets import load_secrets_from_json
     load_secrets_from_json()
 except Exception as e:
-    print(f"⚠️ No se pudieron cargar secrets desde Secret Manager: {e}")
+    print(f"[WARN] No se pudieron cargar secrets desde Secret Manager: {e}")
     print("   Usando variables de entorno locales...")
 
 app = Flask(__name__)
@@ -30,9 +30,9 @@ from src.agents.orquestador import AgenteOrquestador
 _orquestador = None
 try:
     _orquestador = AgenteOrquestador()
-    print("✅ AgenteOrquestador inicializado correctamente")
+    print("[OK] AgenteOrquestador inicializado correctamente")
 except Exception as e:
-    print(f"⚠️ Error inicializando AgenteOrquestador: {e}")
+    print(f"[WARN] Error inicializando AgenteOrquestador: {e}")
 
 
 @app.route('/health', methods=['GET'])
@@ -96,7 +96,7 @@ def run():
         return jsonify(resultado)
     
     except Exception as e:
-        print(f"❌ Error en /run: {e}")
+        print(f"[ERROR] Error en /run: {e}")
         import traceback
         traceback.print_exc()
         return jsonify({"error": str(e)}), 500
@@ -127,7 +127,7 @@ def generar_pdf():
         )
     
     except Exception as e:
-        print(f"❌ Error generando PDF: {e}")
+        print(f"[ERROR] Error generando PDF: {e}")
         return jsonify({"error": str(e)}), 500
 
 

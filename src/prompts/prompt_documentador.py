@@ -81,8 +81,13 @@ Transformar la información entregada en el User Prompt en un JSON perfectamente
 def get_prompt_documentador(datos: dict) -> str:
     """Genera el prompt del usuario para el documentador."""
     import json
+    from datetime import datetime
+    
+    fecha_actual = datetime.now().strftime("%Y-%m-%d")
     
     return f"""Genera la Propuesta Comercial consolidada con la siguiente información ya procesada:
+
+**FECHA DE GENERACION (USAR ESTA EXACTAMENTE):** {fecha_actual}
 
 **Propuesta Comercial** (datos del formulario original)
 

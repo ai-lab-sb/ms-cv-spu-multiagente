@@ -12,7 +12,7 @@ class CatalogoService:
     
     def __init__(self):
         self._catalogo_cache = None
-        print("✅ CatalogoService inicializado")
+        print("[OK] CatalogoService inicializado")
     
     def obtener_catalogo(self, page: int = 1, page_size: int = 400) -> List[Dict[str, Any]]:
         """
@@ -49,11 +49,11 @@ class CatalogoService:
             else:
                 self._catalogo_cache = []
             
-            print(f"✅ Catálogo cargado: {len(self._catalogo_cache)} productos")
+            print(f"[OK] Catalogo cargado: {len(self._catalogo_cache)} productos")
             return self._catalogo_cache
             
         except Exception as e:
-            print(f"❌ Error obteniendo catálogo: {e}")
+            print(f"[ERROR] Error obteniendo catalogo: {e}")
             return []
     
     def filtrar_por_categoria(self, categoria: str) -> List[Dict[str, Any]]:

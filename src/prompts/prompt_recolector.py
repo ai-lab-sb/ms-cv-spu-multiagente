@@ -43,7 +43,7 @@ def get_prompt_recolector(datos: dict) -> str:
     return f"""**variables identificadas**
 
 - nombre_empresa: {datos.get('nombre_empresa', '')}
-- numero_trabajores: {datos.get('numero_empleados', '')}
+- numero_trabajadores: {datos.get('numero_empleados', '')}
 - codigoCIIU: {datos.get('codigo_ciiu', '')}
 - aportesMensuales: {datos.get('aportes_mensuales', '')}
 - porcentajeReinversion: {datos.get('porcentaje_reinversion', '')}

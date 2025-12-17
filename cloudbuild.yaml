@@ -1,5 +1,5 @@
 substitutions:
-  _SERVICE: "ms-cv-spu-multiagente-stg"
+  _SERVICE: "ms-cv-spu-multiagente-dev"
   _LOCATION: "us-central1"
   _REPO: "cloud-run-source-deploy"
 
@@ -33,7 +33,7 @@ steps:
       - '--timeout=600s'
       - '--max-instances=10'
       - '--set-env-vars=GOOGLE_CLOUD_PROJECT=${PROJECT_ID},GOOGLE_CLOUD_LOCATION=${_LOCATION}'
-      - '--service-account=servicio-general@sb-iacorredores-stage.iam.gserviceaccount.com'
+      - '--service-account=servicio-general-dev@sb-iacorredores-dev.iam.gserviceaccount.com'
       - '--labels=billing_tag=spu-multiagente,componente=ms,team=canales-venta,tipo=iniciativa-hackaton,vp=corredores'
 
 images:

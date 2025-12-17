@@ -135,6 +135,20 @@ def get_prompt_selector_productos(datos: dict, catalogo_productos: list) -> str:
     """Genera el prompt del usuario para el selector de productos."""
     import json
     
+    # Crear versión compacta del catálogo (solo campos esenciales)
+    catalogo_compacto = []
+    for p in catalogo_productos:
+        catalogo_compacto.append({
+            "cat": p.get("categoria_de_programas", ""),
+            "desc": p.get("descripcion_programas_de_prevencion", ""),
+            "sub": p.get("subcategoria", ""),
+            "tema": p.get("tema", ""),
+            "tipo": p.get("tipo", ""),
+            "h_eq": p.get("valor_de_la_hora_equipos"),
+            "h_bas": p.get("valor_hora_aliado_basico"),
+            "h_esp": p.get("valor_hora_aliado_especializado")
+        })
+    
     return f"""**Perfil del Cliente**
 - numeroTrabajadores: {datos.get('numero_empleados', '')}
 - presupuestoAnual: {datos.get('presupuesto_anual', '')}
@@ -143,7 +157,7 @@ def get_prompt_selector_productos(datos: dict, catalogo_productos: list) -> str:
 - riesgos_generales: {datos.get('riesgos_generales', [])}
 - Obligaciones_legales: {datos.get('obligaciones_legales', [])}
 
-**Programas**
-{json.dumps(catalogo_productos, ensure_ascii=False, indent=2)}
+**Programas** (campos: cat=categoria, desc=descripcion, sub=subcategoria, tema, tipo, h_eq=hora_equipos, h_bas=hora_aliado_basico, h_esp=hora_aliado_especializado)
+{json.dumps(catalogo_compacto, ensure_ascii=False)}
 """
 

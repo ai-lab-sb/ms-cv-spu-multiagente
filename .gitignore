@@ -23,4 +23,9 @@ Thumbs.db
 # Generated files
 *.pdf
 output/
+debug_*.txt
+
+# Test files
+test_*.py
+main_local.py
 

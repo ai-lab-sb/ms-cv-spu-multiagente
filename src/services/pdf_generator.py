@@ -24,7 +24,7 @@ class PDFGenerator:
         self._env.filters['format_currency'] = self._format_currency
         self._env.filters['safe_value'] = self._safe_value
         
-        print(f"✅ PDFGenerator inicializado (templates: {template_dir})")
+        print(f"[OK] PDFGenerator inicializado (templates: {template_dir})")
     
     @staticmethod
     def _format_currency(value, default='$0'):
@@ -68,11 +68,11 @@ class PDFGenerator:
                 base_url=self._template_dir
             ).write_pdf()
             
-            print(f"✅ PDF generado ({len(pdf_bytes)} bytes)")
+            print(f"[OK] PDF generado ({len(pdf_bytes)} bytes)")
             return pdf_bytes
             
         except Exception as e:
-            print(f"❌ Error generando PDF: {e}")
+            print(f"[ERROR] Error generando PDF: {e}")
             raise
     
     def _preparar_datos_template(self, data: Dict[str, Any]) -> Dict[str, Any]:
@@ -114,6 +114,6 @@ class PDFGenerator:
         with open(output_path, 'wb') as f:
             f.write(pdf_bytes)
         
-        print(f"✅ PDF guardado en: {output_path}")
+        print(f"[OK] PDF guardado en: {output_path}")
         return output_path
 

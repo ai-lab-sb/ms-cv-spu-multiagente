@@ -46,16 +46,16 @@ class LLMService:
                     project=resolved_project,
                     location=resolved_location
                 )
-                print(f"✅ Google GenAI configurado con Vertex AI (proyecto: {resolved_project})")
+                print(f"[OK] Google GenAI configurado con Vertex AI (proyecto: {resolved_project})")
             except Exception as e:
                 if resolved_api_key:
                     self._client = genai.Client(api_key=resolved_api_key)
-                    print(f"✅ Google GenAI configurado con API key (fallback)")
+                    print(f"[OK] Google GenAI configurado con API key (fallback)")
                 else:
                     raise EnvironmentError(f"Error configurando GenAI: {e}")
         elif resolved_api_key:
             self._client = genai.Client(api_key=resolved_api_key)
-            print(f"✅ Google GenAI configurado con API key")
+            print(f"[OK] Google GenAI configurado con API key")
         else:
             raise EnvironmentError(
                 "No se encontró autenticación para google.genai. "
@@ -104,14 +104,15 @@ class LLMService:
             return response.text
             
         except Exception as e:
-            print(f"❌ Error generando respuesta LLM: {e}")
+            print(f"[ERROR] Error generando respuesta LLM: {e}")
             raise
     
     def generar_json(
         self,
         system_prompt: str,
         user_prompt: str,
-        temperature: Optional[float] = None
+        temperature: Optional[float] = None,
+        debug: bool = False
     ) -> Dict[str, Any]:
         """
         Genera una respuesta JSON estructurada.
@@ -120,6 +121,7 @@ class LLMService:
             system_prompt: Instrucciones del sistema
             user_prompt: Mensaje del usuario
             temperature: Creatividad (menor para respuestas más determinísticas)
+            debug: Si True, imprime la respuesta cruda
             
         Returns:
             Diccionario parseado desde JSON
@@ -128,13 +130,23 @@ class LLMService:
             respuesta_raw = self.generar_respuesta(
                 system_prompt=system_prompt,
                 user_prompt=user_prompt,
-                temperature=temperature or 0.2  # Más bajo para JSON
+                temperature=temperature or 0.2,  # Más bajo para JSON
+                max_tokens=65536  # Máximo tokens para respuestas grandes
             )
             
-            return self._limpiar_y_parsear_json(respuesta_raw)
+            if debug:
+                print(f"\n[DEBUG] Respuesta LLM ({len(respuesta_raw)} chars):")
+                print(respuesta_raw[:500] + "..." if len(respuesta_raw) > 500 else respuesta_raw)
+            
+            resultado = self._limpiar_y_parsear_json(respuesta_raw)
+            
+            if debug:
+                print(f"\n[DEBUG] JSON parseado: {len(resultado)} keys")
+            
+            return resultado
             
         except Exception as e:
-            print(f"❌ Error en generar_json: {e}")
+            print(f"[ERROR] Error en generar_json: {e}")
             raise
     
     def _limpiar_y_parsear_json(self, text: str) -> Dict[str, Any]:
@@ -142,15 +154,20 @@ class LLMService:
         if not text:
             return {}
         
-        # Limpiar markdown
+        # Limpiar markdown (múltiples formatos)
         cleaned = text.strip()
-        if cleaned.startswith("```json"):
-            cleaned = cleaned[7:]
-        if cleaned.startswith("```"):
-            cleaned = cleaned[3:]
-        if cleaned.endswith("```"):
-            cleaned = cleaned[:-3]
-        cleaned = cleaned.strip()
+        
+        # Eliminar bloques de código markdown
+        if "```json" in cleaned:
+            start = cleaned.find("```json") + 7
+            end = cleaned.find("```", start)
+            if end > start:
+                cleaned = cleaned[start:end].strip()
+        elif "```" in cleaned:
+            start = cleaned.find("```") + 3
+            end = cleaned.find("```", start)
+            if end > start:
+                cleaned = cleaned[start:end].strip()
         
         # Intentar parsear directamente
         try:
@@ -158,15 +175,47 @@ class LLMService:
         except json.JSONDecodeError:
             pass
         
-        # Buscar JSON en el texto
-        json_pattern = r'\{[\s\S]*\}'
-        matches = re.findall(json_pattern, cleaned)
+        # Buscar el primer JSON completo (el objeto raíz)
+        # Encontrar el primer '{' que NO esté dentro de un array
+        first_brace = cleaned.find('{')
+        if first_brace == -1:
+            print(f"[WARN] No se encontro JSON: {text[:200]}...")
+            return {}
         
-        for match in matches:
+        # Encontrar el cierre correspondiente
+        depth = 0
+        end_pos = -1
+        for j in range(first_brace, len(cleaned)):
+            c = cleaned[j]
+            if c == '{':
+                depth += 1
+            elif c == '}':
+                depth -= 1
+                if depth == 0:
+                    end_pos = j
+                    break
+        
+        if end_pos > first_brace:
+            candidate = cleaned[first_brace:end_pos+1]
             try:
-                return json.loads(match)
+                return json.loads(candidate)
             except json.JSONDecodeError:
-                continue
+                pass
         
-        print(f"⚠️ No se pudo parsear JSON: {text[:200]}...")
+        # Fallback: buscar cualquier JSON válido
+        for i, char in enumerate(cleaned):
+            if char == '{':
+                depth = 0
+                for j in range(i, len(cleaned)):
+                    if cleaned[j] == '{':
+                        depth += 1
+                    elif cleaned[j] == '}':
+                        depth -= 1
+                        if depth == 0:
+                            try:
+                                return json.loads(cleaned[i:j+1])
+                            except json.JSONDecodeError:
+                                break
+        
+        print(f"[WARN] No se pudo parsear JSON: {text[:200]}...")
         return {}

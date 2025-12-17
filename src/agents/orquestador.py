@@ -25,7 +25,7 @@ class AgenteOrquestador:
         self._catalogo = CatalogoService()
         self._pdf_generator = PDFGenerator()
         
-        print("✅ AgenteOrquestador inicializado con todos los servicios")
+        print("[OK] AgenteOrquestador inicializado con todos los servicios")
     
     def ejecutar(self, datos_entrada: Dict[str, Any]) -> Dict[str, Any]:
         """
@@ -38,14 +38,14 @@ class AgenteOrquestador:
             Resultado con la propuesta comercial y PDF
         """
         print("\n" + "="*60)
-        print("🚀 INICIANDO GENERACIÓN DE PROPUESTA")
+        print(">>> INICIANDO GENERACION DE PROPUESTA")
         print("="*60)
         print(f"   Empresa: {datos_entrada.get('nombre_empresa')}")
         print(f"   Empleados: {datos_entrada.get('numero_empleados')}")
         
         try:
             # PASO 1: Recolectar y validar datos
-            print("\n📋 PASO 1: Validando datos del cliente...")
+            print("\n[PASO 1] Validando datos del cliente...")
             resultado_recolector = self._ejecutar_recolector(datos_entrada)
             
             if resultado_recolector.get("proximo_paso") == "solicitar_datos_faltantes":
@@ -56,10 +56,10 @@ class AgenteOrquestador:
                     "mensaje": resultado_recolector.get("mensaje")
                 }
             
-            print("   ✓ Datos validados correctamente")
+            print("   [OK] Datos validados correctamente")
             
             # PASO 2: Identificar perfil de riesgo
-            print("\n🎯 PASO 2: Identificando perfil de riesgo...")
+            print("\n[PASO 2] Identificando perfil de riesgo...")
             resultado_perfil = self._ejecutar_perfil_riesgo(datos_entrada)
             
             if resultado_perfil.get("proximo_paso") == "Error_Perfilamiento":
@@ -68,15 +68,15 @@ class AgenteOrquestador:
                     "error": "No se pudo determinar el perfil de riesgo"
                 }
             
-            print(f"   ✓ Clase de riesgo: {resultado_perfil.get('clase_riesgo')}")
+            print(f"   [OK] Clase de riesgo: {resultado_perfil.get('clase_riesgo')}")
             
             # PASO 3: Calcular presupuesto anual
-            print("\n💰 PASO 3: Calculando presupuesto...")
+            print("\n[PASO 3] Calculando presupuesto...")
             aportes = float(datos_entrada.get("aportes_mensuales", 0))
             porcentaje = float(datos_entrada.get("porcentaje_reinversion", 0))
             presupuesto_anual = aportes * 12 * (porcentaje / 100)
             
-            print(f"   ✓ Presupuesto anual: ${presupuesto_anual:,.0f}")
+            print(f"   [OK] Presupuesto anual: ${presupuesto_anual:,.0f}")
             
             # Combinar datos para el siguiente paso
             datos_combinados = {
@@ -88,12 +88,12 @@ class AgenteOrquestador:
             }
             
             # PASO 4: Seleccionar productos
-            print("\n📦 PASO 4: Seleccionando productos...")
+            print("\n[PASO 4] Seleccionando productos...")
             resultado_productos = self._ejecutar_selector_productos(datos_combinados)
             
-            print(f"   ✓ Productos obligatorios: {len(resultado_productos.get('productos_obligatorios', []))}")
-            print(f"   ✓ Productos prioritarios: {len(resultado_productos.get('productos_prioritarios', []))}")
-            print(f"   ✓ Valores agregados: {len(resultado_productos.get('valores_agregados', []))}")
+            print(f"   [OK] Productos obligatorios: {len(resultado_productos.get('productos_obligatorios', []))}")
+            print(f"   [OK] Productos prioritarios: {len(resultado_productos.get('productos_prioritarios', []))}")
+            print(f"   [OK] Valores agregados: {len(resultado_productos.get('valores_agregados', []))}")
             
             # Combinar con productos seleccionados
             datos_finales = {
@@ -105,19 +105,19 @@ class AgenteOrquestador:
             }
             
             # PASO 5: Generar documento final
-            print("\n📄 PASO 5: Generando propuesta consolidada...")
+            print("\n[PASO 5] Generando propuesta consolidada...")
             propuesta_final = self._ejecutar_documentador(datos_finales)
             
-            print("   ✓ Propuesta consolidada generada")
+            print("   [OK] Propuesta consolidada generada")
             
             # PASO 6: Generar PDF
-            print("\n📑 PASO 6: Generando PDF...")
+            print("\n[PASO 6] Generando PDF...")
             pdf_bytes = self._pdf_generator.generar_pdf(propuesta_final)
             
-            print("   ✓ PDF generado exitosamente")
+            print("   [OK] PDF generado exitosamente")
             
             print("\n" + "="*60)
-            print("✅ PROPUESTA COMERCIAL GENERADA EXITOSAMENTE")
+            print("[SUCCESS] PROPUESTA COMERCIAL GENERADA EXITOSAMENTE")
             print("="*60 + "\n")
             
             return {
@@ -128,7 +128,7 @@ class AgenteOrquestador:
             }
             
         except Exception as e:
-            print(f"\n❌ Error en orquestador: {e}")
+            print(f"\n[ERROR] Error en orquestador: {e}")
             import traceback
             traceback.print_exc()
             return {
@@ -155,11 +155,17 @@ class AgenteOrquestador:
         # Obtener catálogo de productos
         catalogo = self._catalogo.obtener_catalogo()
         
-        return self._llm.generar_json(
+        # Limitar catálogo (formato compacto permite más productos)
+        catalogo_limitado = catalogo[:80] if len(catalogo) > 80 else catalogo
+        print(f"   [INFO] Usando {len(catalogo_limitado)} productos del catalogo")
+        
+        resultado = self._llm.generar_json(
             system_prompt=SYSTEM_PROMPT_SELECTOR_PRODUCTOS,
-            user_prompt=get_prompt_selector_productos(datos, catalogo),
+            user_prompt=get_prompt_selector_productos(datos, catalogo_limitado),
             temperature=0.5  # Un poco más de creatividad para selección
         )
+        
+        return resultado
     
     def _ejecutar_documentador(self, datos: Dict[str, Any]) -> Dict[str, Any]:
         """Ejecuta el agente documentador."""

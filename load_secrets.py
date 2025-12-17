@@ -11,7 +11,7 @@ def load_secrets_from_json():
     Carga secrets desde Secret Manager y los establece como variables de entorno.
     El secret debe ser un JSON con pares clave-valor.
     """
-    project_id = os.environ.get("GOOGLE_CLOUD_PROJECT", "sb-iacorredores-stage")
+    project_id = os.environ.get("GOOGLE_CLOUD_PROJECT", "sb-iacorredores-dev")
     secret_id = "spu-multiagente"  # Nombre del secret en Secret Manager
     version_id = "latest"
 
@@ -26,11 +26,11 @@ def load_secrets_from_json():
         for key, value in secrets.items():
             if key not in os.environ:
                 os.environ[key] = str(value)
-                print(f"✅ Secret '{key}' cargado desde Secret Manager")
+                print(f"[OK] Secret '{key}' cargado desde Secret Manager")
         
-        print(f"✅ Secrets cargados exitosamente desde '{secret_id}'")
+        print(f"[OK] Secrets cargados exitosamente desde '{secret_id}'")
         
     except Exception as e:
-        print(f"⚠️ Error cargando secrets: {e}")
+        print(f"[ERROR] Error cargando secrets: {e}")
         raise
 
