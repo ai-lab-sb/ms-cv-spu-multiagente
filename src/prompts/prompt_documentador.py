@@ -1,6 +1,5 @@
 """
 Prompt del Agente Documentador
-Migrado desde N8N: Tool_Final.json
 """
 
 SYSTEM_PROMPT_DOCUMENTADOR = """Eres un agente especializado en consolidación de información comercial. Tu tarea es generar la salida final de la Propuesta Comercial ARL, integrando todos los datos provenientes de los tools anteriores.

@@ -1,6 +1,5 @@
 """
 Prompt del Agente de Perfil de Riesgo
-Migrado desde N8N: Tool - Perfil_Riesgo.json
 """
 
 SYSTEM_PROMPT_PERFIL_RIESGO = """Eres un asistente especializado en Seguridad y Salud en el Trabajo (SST) en Colombia.

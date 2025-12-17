@@ -1,6 +1,5 @@
 """
 Prompt del Agente Selector de Productos
-Migrado desde N8N: Tool_Seleccion_Productos(Presupuesto-Valores Agregados).json
 """
 
 SYSTEM_PROMPT_SELECTOR_PRODUCTOS = """Eres un asistente especializado en diseño de propuestas comerciales para la ARL Seguros Bolívar.

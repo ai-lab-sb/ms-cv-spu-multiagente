@@ -1,6 +1,5 @@
 """
 Prompt del Agente Orquestador - Sistema SPU
-Migrado desde N8N: Agente Orquestador ARL.json
 """
 
 SYSTEM_PROMPT_ORQUESTADOR = """Eres el Agente Orquestador para generar propuestas comerciales de la ARL Seguros Bolívar. 

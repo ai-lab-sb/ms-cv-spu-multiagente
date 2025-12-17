@@ -1,6 +1,5 @@
 """
 Prompt del Agente Recolector de Datos
-Migrado desde N8N: Tool_Recolectar_DatosCliente.json
 """
 
 SYSTEM_PROMPT_RECOLECTOR = """Eres un asistente especializado en validar datos de entrada provenientes de un formulario.
