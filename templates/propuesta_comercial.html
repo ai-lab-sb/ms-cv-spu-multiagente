@@ -346,20 +346,20 @@
         <table>
             <thead>
                 <tr>
-                    <th style="width: 25%;">Categoría</th>
                     <th style="width: 35%;">Descripción</th>
-                    <th class="text-right">Tarifa/Hr</th>
+                    <th style="width: 20%;">Categoría</th>
                     <th class="text-center">Horas</th>
+                    <th class="text-right">Tarifa Hora</th>
                     <th class="text-right">Subtotal</th>
                 </tr>
             </thead>
             <tbody>
                 {% for producto in obligatorios %}
                 <tr>
-                    <td>{{ producto.subcategoria | safe_value('General') }}</td>
                     <td>{{ producto.descripcion_programas_de_prevencion | safe_value }}</td>
-                    <td class="text-right">{{ producto.tarifa_hora | format_currency }}</td>
+                    <td>{{ producto.subcategoria | safe_value('General') }}</td>
                     <td class="text-center">{{ producto.horas_asignadas | safe_value(0) }}</td>
+                    <td class="text-right">{{ producto.tarifa_hora | format_currency }}</td>
                     <td class="text-right">{{ producto.subtotal | format_currency }}</td>
                 </tr>
                 {% endfor %}
@@ -377,20 +377,20 @@
         <table>
             <thead>
                 <tr>
-                    <th style="width: 25%;">Categoría</th>
                     <th style="width: 35%;">Descripción</th>
-                    <th class="text-right">Tarifa/Hr</th>
+                    <th style="width: 20%;">Categoría</th>
                     <th class="text-center">Horas</th>
+                    <th class="text-right">Tarifa Hora</th>
                     <th class="text-right">Subtotal</th>
                 </tr>
             </thead>
             <tbody>
                 {% for producto in prioritarios %}
                 <tr>
-                    <td>{{ producto.subcategoria | safe_value('General') }}</td>
                     <td>{{ producto.descripcion_programas_de_prevencion | safe_value }}</td>
-                    <td class="text-right">{{ producto.tarifa_hora | format_currency }}</td>
+                    <td>{{ producto.subcategoria | safe_value('General') }}</td>
                     <td class="text-center">{{ producto.horas_asignadas | safe_value(0) }}</td>
+                    <td class="text-right">{{ producto.tarifa_hora | format_currency }}</td>
                     <td class="text-right">{{ producto.subtotal | format_currency }}</td>
                 </tr>
                 {% endfor %}
@@ -408,14 +408,32 @@
         <p style="color: #666; font-size: 10px; margin-bottom: 12px;">
             Los siguientes servicios se incluyen como beneficio adicional sin afectar su presupuesto de reinversión.
         </p>
-        <div class="valores-grid">
-            {% for valor in valores %}
-            <div class="valor-agregado-item">
-                <div class="tema">{{ valor.tema | safe_value }}</div>
-                <div class="desc">{{ valor.descripcion_programas_de_prevencion | safe_value }}</div>
-            </div>
-            {% endfor %}
-        </div>
+        <table>
+            <thead>
+                <tr style="background-color: #28a745;">
+                    <th style="width: 35%;">Descripción</th>
+                    <th style="width: 20%;">Categoría</th>
+                    <th class="text-center">Horas</th>
+                    <th class="text-right">Tarifa Hora</th>
+                    <th class="text-right">Valor</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for valor in valores %}
+                <tr style="background-color: #f0f9f4;">
+                    <td>{{ valor.descripcion_programas_de_prevencion | safe_value }}</td>
+                    <td>{{ valor.subcategoria | safe_value('General') }}</td>
+                    <td class="text-center">{{ valor.horas_asignadas | safe_value(1) }}</td>
+                    <td class="text-right">{{ valor.tarifa_hora | format_currency }}</td>
+                    <td class="text-right">{{ valor.subtotal | format_currency }}</td>
+                </tr>
+                {% endfor %}
+                <tr style="background-color: #28a745; color: #fff; font-weight: bold;">
+                    <td colspan="4">Total Beneficios Sin Costo</td>
+                    <td class="text-right">{{ presupuesto.total_valores_agregados | format_currency }}</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 
     <!-- Footer -->

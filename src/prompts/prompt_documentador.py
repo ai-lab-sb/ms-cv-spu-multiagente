@@ -58,6 +58,7 @@ La salida debe comenzar directamente con { y terminar con }
       "total_productos": 0,
       "total_productos_obligatorios": 0,
       "total_productos_prioritarios": 0,
+      "total_valores_agregados": 0,
       "saldo_restante": 0,
       "porcentaje_utilizado": 0
     },

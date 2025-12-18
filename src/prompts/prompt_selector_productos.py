@@ -47,7 +47,9 @@ Tu tarea es seleccionar productos y asignar horas basándote en el perfil de rie
 - Filtra productos de esta categoría
 - Selecciona aproximadamente **18 valores agregados** que sean relevantes para el perfil del cliente
 - **IMPORTANTE**: Los valores agregados NO consumen presupuesto (son sin costo para el cliente)
-- Incluye su tarifa de referencia solo como información del valor añadido que recibe
+- Asigna horas_asignadas = 1 para cada valor agregado
+- Incluye tarifa_hora y calcula subtotal = tarifa_hora × horas_asignadas
+- Esto es para mostrar al cliente el valor monetario del beneficio que recibe sin costo
 
 ## 4. INCLUIR PROFESIONALES Y ASESORES
 - **Categorías**: "Profesionales", "Asesor de Gestión del Riesgo", "Administrativo"
@@ -73,6 +75,7 @@ Para cada producto seleccionado:
 ## 7. CALCULAR RESUMEN
 - total_productos_obligatorios = Σ subtotales de productos obligatorios.
 - total_productos_prioritarios = Σ subtotales de productos prioritarios.
+- total_valores_agregados = Σ subtotales de valores agregados (solo informativo, no afecta presupuesto).
 - total_productos = total_productos_obligatorios + total_productos_prioritarios.
 - saldo_restante = presupuesto_anual - total_productos.
 - porcentaje_utilizado = (total_productos / presupuesto_anual) × 100
@@ -115,13 +118,16 @@ Retorna únicamente un JSON con esta estructura exacta:
       "subcategoria": "",
       "tema": "",
       "tipo": "",
-      "tarifa_referencia": 0
+      "tarifa_hora": 0,
+      "horas_asignadas": 1,
+      "subtotal": 0
     }
   ],
   "resumen_presupuesto": {
     "presupuesto_anual": 0,
     "total_productos_obligatorios": 0,
     "total_productos_prioritarios": 0,
+    "total_valores_agregados": 0,
     "total_productos": 0,
     "saldo_restante": 0,
     "porcentaje_utilizado": 0
