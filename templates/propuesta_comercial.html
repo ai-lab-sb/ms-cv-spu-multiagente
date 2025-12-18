@@ -7,176 +7,184 @@
     <style>
         @page {
             size: A4;
-            margin: 1.5cm;
-            margin-top: 1.5cm;
+            margin: 1cm 1.2cm;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
         
         body {
             font-family: 'Segoe UI', Arial, sans-serif;
-            margin: 0;
-            padding: 0;
             background-color: #fff;
             color: #333;
-            font-size: 11px;
-            line-height: 1.4;
+            font-size: 10px;
+            line-height: 1.3;
         }
 
-        /* Evitar cortes en medio de elementos */
-        .section, table, tr, .presupuesto-card {
-            page-break-inside: avoid;
-        }
-
-        /* Header con Logo */
-        .header-container {
+        /* Header con Logo (fondo blanco) */
+        .header-logo-bar {
             display: flex;
             align-items: center;
             justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 3px solid #168a56;
+            margin-bottom: 10px;
+        }
+
+        .header-logo-bar img {
+            height: 45px;
+            width: auto;
+        }
+
+        .header-logo-bar .date-info {
+            font-size: 9px;
+            color: #666;
+            text-align: right;
+        }
+
+        /* Título Principal */
+        .main-title {
             background: linear-gradient(135deg, #168a56 0%, #0d5c3a 100%);
             color: #fff;
-            padding: 15px 20px;
-            margin-bottom: 20px;
-            border-radius: 8px;
+            padding: 12px 15px;
+            text-align: center;
+            margin-bottom: 12px;
+            border-radius: 6px;
         }
 
-        .header-logo {
-            width: 120px;
-            height: auto;
-        }
-
-        .header-title {
-            text-align: right;
-            flex: 1;
-            margin-left: 20px;
-        }
-
-        .header-title h1 {
-            font-size: 20px;
+        .main-title h1 {
+            font-size: 18px;
             margin: 0;
             font-weight: 600;
         }
 
-        .header-title .subtitle {
-            font-size: 12px;
+        .main-title .subtitle {
+            font-size: 11px;
             color: #FFDC5D;
             margin-top: 3px;
         }
 
-        .header-title .company-name {
-            font-size: 16px;
-            color: #fff;
-            margin-top: 8px;
+        .main-title .company-name {
+            font-size: 14px;
+            margin-top: 6px;
             font-weight: bold;
         }
 
-        /* Secciones */
+        /* Secciones compactas */
         .section {
             background-color: #fff;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
-            margin-bottom: 15px;
-            border-left: 4px solid #168a56;
+            padding: 10px 12px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            border-left: 3px solid #168a56;
+            border: 1px solid #e0e0e0;
         }
 
         .section-title {
-            font-size: 14px;
+            font-size: 12px;
             font-weight: bold;
             color: #168a56;
             border-bottom: 2px solid #FFDC5D;
-            padding-bottom: 8px;
-            margin-bottom: 12px;
-            text-transform: uppercase;
+            padding-bottom: 5px;
+            margin-bottom: 8px;
         }
 
-        /* Info Grid */
+        /* Info Grid compacto */
         .info-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
+            display: table;
+            width: 100%;
+        }
+
+        .info-row {
+            display: table-row;
         }
 
         .info-item {
-            flex: 1 1 45%;
-            padding: 8px;
+            display: table-cell;
+            padding: 5px 8px;
             background-color: #f8f9fa;
-            border-radius: 4px;
+            border: 1px solid #e9ecef;
+            width: 50%;
         }
 
         .info-label {
-            font-size: 10px;
+            font-size: 8px;
             color: #666;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
 
         .info-value {
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 600;
             color: #333;
-            margin-top: 2px;
         }
 
-        /* Presupuesto destacado */
+        /* Presupuesto compacto */
         .presupuesto-card {
             background: linear-gradient(135deg, #168a56 0%, #1a9e62 100%);
             color: #fff;
-            padding: 20px;
-            border-radius: 10px;
+            padding: 12px;
+            border-radius: 8px;
             text-align: center;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
 
         .presupuesto-title {
-            font-size: 12px;
+            font-size: 10px;
             color: #FFDC5D;
             text-transform: uppercase;
-            letter-spacing: 1px;
         }
 
         .presupuesto-valor {
-            font-size: 28px;
+            font-size: 22px;
             font-weight: bold;
-            margin: 8px 0;
+            margin: 5px 0;
         }
 
         .presupuesto-subtitle {
-            font-size: 11px;
+            font-size: 9px;
             opacity: 0.9;
         }
 
         .presupuesto-grid {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 15px;
+            display: table;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .presupuesto-grid-row {
+            display: table-row;
         }
 
         .presupuesto-item {
+            display: table-cell;
             background-color: rgba(255,255,255,0.15);
-            padding: 10px 20px;
-            border-radius: 6px;
-            flex: 1;
-            max-width: 150px;
+            padding: 8px;
+            text-align: center;
+            width: 33.33%;
         }
 
         .presupuesto-item-label {
-            font-size: 9px;
+            font-size: 8px;
             opacity: 0.8;
             text-transform: uppercase;
         }
 
         .presupuesto-item-value {
-            font-size: 14px;
+            font-size: 12px;
             font-weight: bold;
-            margin-top: 4px;
+            margin-top: 3px;
         }
 
-        /* Tablas de productos */
+        /* Tablas compactas */
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 10px;
-            font-size: 10px;
+            margin-top: 6px;
+            font-size: 9px;
         }
 
         thead tr {
@@ -185,16 +193,15 @@
         }
 
         th {
-            padding: 10px 8px;
+            padding: 6px 5px;
             text-align: left;
             font-weight: 600;
+            font-size: 8px;
             text-transform: uppercase;
-            font-size: 9px;
-            letter-spacing: 0.5px;
         }
 
         td {
-            padding: 8px;
+            padding: 5px;
             border-bottom: 1px solid #e9ecef;
         }
 
@@ -216,75 +223,116 @@
             font-weight: bold;
         }
 
-        /* Riesgos y obligaciones */
+        .total-row td {
+            border-bottom: none;
+        }
+
+        /* Riesgos compactos */
+        .risk-badges {
+            margin: 5px 0;
+        }
+
         .risk-badge {
             display: inline-block;
             background-color: #FFDC5D;
             color: #333;
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 11px;
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-size: 9px;
             font-weight: 600;
-            margin-right: 5px;
-            margin-bottom: 5px;
+            margin: 2px 3px 2px 0;
+        }
+
+        .obligation-list {
+            margin-top: 8px;
         }
 
         .obligation-item {
-            padding: 8px 12px;
+            padding: 4px 8px;
             background-color: #f8f9fa;
-            border-left: 3px solid #168a56;
-            margin-bottom: 6px;
-            font-size: 10px;
+            border-left: 2px solid #168a56;
+            margin-bottom: 3px;
+            font-size: 9px;
         }
 
-        /* Footer */
+        /* Valores agregados tabla verde */
+        .valores-table thead tr {
+            background-color: #28a745;
+        }
+
+        .valores-table tbody tr {
+            background-color: #f0f9f4;
+        }
+
+        .valores-table .total-row {
+            background-color: #28a745 !important;
+        }
+
+        /* Footer compacto */
         .footer {
-            margin-top: 20px;
-            padding: 15px;
+            margin-top: 15px;
+            padding: 10px;
             text-align: center;
-            font-size: 10px;
+            font-size: 9px;
             color: #666;
             border-top: 2px solid #168a56;
         }
 
         .footer .logo-text {
-            font-size: 14px;
+            font-size: 12px;
             font-weight: bold;
             color: #168a56;
+        }
+
+        /* Etiquetas de sección */
+        .section-label {
+            font-size: 9px;
+            font-weight: bold;
+            margin-bottom: 3px;
         }
     </style>
 </head>
 <body>
 
-    <!-- Header con Logo -->
-    <div class="header-container">
-        <img src="{{ logo_path }}" alt="Seguros Bolívar" class="header-logo">
-        <div class="header-title">
-            <h1>PROPUESTA COMERCIAL ARL</h1>
-            <div class="subtitle">Servicios de Prevención y Seguridad en el Trabajo</div>
-            <div class="company-name">{{ cliente.nombre_empresa | safe_value }}</div>
+    <!-- Header con Logo (fondo blanco) -->
+    <div class="header-logo-bar">
+        <img src="{{ logo_path }}" alt="Seguros Bolívar">
+        <div class="date-info">
+            Propuesta generada: {{ meta.fecha_generacion | safe_value }}<br>
+            Versión {{ meta.version | safe_value('1.0') }}
         </div>
+    </div>
+
+    <!-- Título Principal -->
+    <div class="main-title">
+        <h1>PROPUESTA COMERCIAL ARL</h1>
+        <div class="subtitle">Servicios de Prevención y Seguridad en el Trabajo</div>
+        <div class="company-name">{{ cliente.nombre_empresa | safe_value }}</div>
     </div>
 
     <!-- Información del Cliente -->
     <div class="section">
         <div class="section-title">📋 Información del Cliente</div>
         <div class="info-grid">
-            <div class="info-item">
-                <div class="info-label">Empresa</div>
-                <div class="info-value">{{ cliente.nombre_empresa | safe_value }}</div>
+            <div class="info-row">
+                <div class="info-item">
+                    <div class="info-label">Empresa</div>
+                    <div class="info-value">{{ cliente.nombre_empresa | safe_value }}</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Código CIIU</div>
+                    <div class="info-value">{{ cliente.codigo_ciiu | safe_value }}</div>
+                </div>
             </div>
-            <div class="info-item">
-                <div class="info-label">Código CIIU</div>
-                <div class="info-value">{{ cliente.codigo_ciiu | safe_value }}</div>
-            </div>
-            <div class="info-item">
-                <div class="info-label">Número de Empleados</div>
-                <div class="info-value">{{ cliente.numero_empleados | safe_value }}</div>
-            </div>
-            <div class="info-item">
-                <div class="info-label">Enfoque Prioritario</div>
-                <div class="info-value">{{ cliente.enfoque_prioritario | safe_value }}</div>
+            <div class="info-row">
+                <div class="info-item">
+                    <div class="info-label">Número de Empleados</div>
+                    <div class="info-value">{{ cliente.numero_empleados | safe_value }}</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Enfoque Prioritario</div>
+                    <div class="info-value">{{ cliente.enfoque_prioritario | safe_value }}</div>
+                </div>
             </div>
         </div>
     </div>
@@ -292,55 +340,62 @@
     <!-- Perfil de Riesgo -->
     <div class="section">
         <div class="section-title">🎯 Perfil de Riesgo</div>
-        <p><strong>Clasificación:</strong> {{ perfil.clase_riesgo | safe_value }}</p>
+        <div class="section-label">Clasificación: <strong>{{ perfil.clase_riesgo | safe_value }}</strong></div>
         
-        <p><strong>Riesgos Generales Identificados:</strong></p>
-        <div>
+        <div class="section-label" style="margin-top: 6px;">Riesgos Identificados:</div>
+        <div class="risk-badges">
             {% for riesgo in perfil.riesgos_generales %}
             <span class="risk-badge">{{ riesgo }}</span>
             {% endfor %}
         </div>
         
-        <p style="margin-top: 15px;"><strong>Obligaciones Legales:</strong></p>
-        {% for obligacion in perfil.obligaciones_legales %}
-        <div class="obligation-item">{{ obligacion }}</div>
-        {% endfor %}
+        <div class="section-label" style="margin-top: 6px;">Obligaciones Legales:</div>
+        <div class="obligation-list">
+            {% for obligacion in perfil.obligaciones_legales[:6] %}
+            <div class="obligation-item">{{ obligacion }}</div>
+            {% endfor %}
+            {% if perfil.obligaciones_legales|length > 6 %}
+            <div class="obligation-item" style="font-style: italic; color: #888;">+ {{ perfil.obligaciones_legales|length - 6 }} obligaciones adicionales...</div>
+            {% endif %}
+        </div>
     </div>
 
-    <!-- Resumen Presupuesto -->
+    <!-- Presupuesto -->
     <div class="presupuesto-card">
         <div class="presupuesto-title">Presupuesto Anual Disponible</div>
         <div class="presupuesto-valor">{{ presupuesto.presupuesto_anual | format_currency }}</div>
         <div class="presupuesto-subtitle">
-            Aportes mensuales: {{ presupuesto.aportes_mensuales | format_currency }} × 12 × {{ presupuesto.porcentaje_reinversion }}%
+            Aportes: {{ presupuesto.aportes_mensuales | format_currency }} × 12 × {{ presupuesto.porcentaje_reinversion }}%
         </div>
         <div class="presupuesto-grid">
-            <div class="presupuesto-item">
-                <div class="presupuesto-item-label">Total Invertido</div>
-                <div class="presupuesto-item-value">{{ presupuesto.total_productos | format_currency }}</div>
-            </div>
-            <div class="presupuesto-item">
-                <div class="presupuesto-item-label">Saldo Restante</div>
-                <div class="presupuesto-item-value">{{ presupuesto.saldo_restante | format_currency }}</div>
-            </div>
-            <div class="presupuesto-item">
-                <div class="presupuesto-item-label">% Utilizado</div>
-                <div class="presupuesto-item-value">{{ "%.1f"|format(presupuesto.porcentaje_utilizado|default(0)) }}%</div>
+            <div class="presupuesto-grid-row">
+                <div class="presupuesto-item">
+                    <div class="presupuesto-item-label">Total Invertido</div>
+                    <div class="presupuesto-item-value">{{ presupuesto.total_productos | format_currency }}</div>
+                </div>
+                <div class="presupuesto-item">
+                    <div class="presupuesto-item-label">Saldo Restante</div>
+                    <div class="presupuesto-item-value">{{ presupuesto.saldo_restante | format_currency }}</div>
+                </div>
+                <div class="presupuesto-item">
+                    <div class="presupuesto-item-label">% Utilizado</div>
+                    <div class="presupuesto-item-value">{{ "%.1f"|format(presupuesto.porcentaje_utilizado|default(0)) }}%</div>
+                </div>
             </div>
         </div>
     </div>
 
     <!-- Productos Obligatorios -->
     <div class="section">
-        <div class="section-title">📦 Productos Obligatorios</div>
+        <div class="section-title">📦 Productos Obligatorios ({{ obligatorios|length }})</div>
         <table>
             <thead>
                 <tr>
-                    <th style="width: 35%;">Descripción</th>
-                    <th style="width: 20%;">Categoría</th>
-                    <th class="text-center">Horas</th>
-                    <th class="text-right">Tarifa Hora</th>
-                    <th class="text-right">Subtotal</th>
+                    <th style="width: 40%;">Descripción</th>
+                    <th style="width: 18%;">Categoría</th>
+                    <th class="text-center" style="width: 10%;">Horas</th>
+                    <th class="text-right" style="width: 16%;">Tarifa</th>
+                    <th class="text-right" style="width: 16%;">Subtotal</th>
                 </tr>
             </thead>
             <tbody>
@@ -363,15 +418,15 @@
 
     <!-- Productos Prioritarios -->
     <div class="section">
-        <div class="section-title">⭐ Productos Prioritarios</div>
+        <div class="section-title">⭐ Productos Prioritarios ({{ prioritarios|length }})</div>
         <table>
             <thead>
                 <tr>
-                    <th style="width: 35%;">Descripción</th>
-                    <th style="width: 20%;">Categoría</th>
-                    <th class="text-center">Horas</th>
-                    <th class="text-right">Tarifa Hora</th>
-                    <th class="text-right">Subtotal</th>
+                    <th style="width: 40%;">Descripción</th>
+                    <th style="width: 18%;">Categoría</th>
+                    <th class="text-center" style="width: 10%;">Horas</th>
+                    <th class="text-right" style="width: 16%;">Tarifa</th>
+                    <th class="text-right" style="width: 16%;">Subtotal</th>
                 </tr>
             </thead>
             <tbody>
@@ -394,23 +449,20 @@
 
     <!-- Valores Agregados -->
     <div class="section">
-        <div class="section-title">🎁 Valores Agregados (Sin Costo)</div>
-        <p style="color: #666; font-size: 10px; margin-bottom: 12px;">
-            Los siguientes servicios se incluyen como beneficio adicional sin afectar su presupuesto de reinversión.
-        </p>
-        <table>
+        <div class="section-title">🎁 Valores Agregados - Sin Costo ({{ valores|length }})</div>
+        <table class="valores-table">
             <thead>
-                <tr style="background-color: #28a745;">
-                    <th style="width: 35%;">Descripción</th>
-                    <th style="width: 20%;">Categoría</th>
-                    <th class="text-center">Horas</th>
-                    <th class="text-right">Tarifa Hora</th>
-                    <th class="text-right">Valor</th>
+                <tr>
+                    <th style="width: 40%;">Descripción</th>
+                    <th style="width: 18%;">Categoría</th>
+                    <th class="text-center" style="width: 10%;">Horas</th>
+                    <th class="text-right" style="width: 16%;">Tarifa</th>
+                    <th class="text-right" style="width: 16%;">Valor</th>
                 </tr>
             </thead>
             <tbody>
                 {% for valor in valores %}
-                <tr style="background-color: #f0f9f4;">
+                <tr>
                     <td>{{ valor.descripcion_programas_de_prevencion | safe_value }}</td>
                     <td>{{ valor.categoria_de_programas | safe_value('VALOR AGREGADO') }}</td>
                     <td class="text-center">{{ valor.horas_asignadas | safe_value(1) }}</td>
@@ -418,7 +470,7 @@
                     <td class="text-right">{{ valor.subtotal | format_currency }}</td>
                 </tr>
                 {% endfor %}
-                <tr style="background-color: #28a745; color: #fff; font-weight: bold;">
+                <tr class="total-row">
                     <td colspan="4">Total Beneficios Sin Costo</td>
                     <td class="text-right">{{ presupuesto.total_valores_agregados | format_currency }}</td>
                 </tr>
@@ -429,8 +481,7 @@
     <!-- Footer -->
     <div class="footer">
         <div class="logo-text">ARL SEGUROS BOLÍVAR</div>
-        <p>Propuesta generada el {{ meta.fecha_generacion | safe_value }} | Versión {{ meta.version | safe_value('1.0') }}</p>
-        <p style="margin-top: 5px; font-style: italic;">
+        <p style="margin-top: 5px;">
             Esta propuesta fue elaborada considerando el perfil de riesgo específico de su empresa
             y las obligaciones legales aplicables según la normativa colombiana en SST.
         </p>
