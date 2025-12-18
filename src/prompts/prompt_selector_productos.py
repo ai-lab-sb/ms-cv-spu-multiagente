@@ -64,13 +64,25 @@ Para cada producto seleccionado:
 - Si HAY MÚLTIPLES campos con valor, selecciona el más apropiado según tu criterio.
 - Registra en "tipo_tarifa_usada" el nombre exacto del campo que utilizaste (ejemplo: "valor_hora_aliado_basico")
 
-## 6. ASIGNAR HORAS Y CALCULAR SUBTOTALES
-- Para cada producto obligatorio y prioritario, asigna un número de horas razonable.
+## 6. ASIGNAR HORAS Y CALCULAR SUBTOTALES - ⚠️ MAXIMIZAR USO DEL PRESUPUESTO
+
+**OBJETIVO PRINCIPAL: Utilizar el 95-100% del presupuesto disponible. El saldo restante debe ser mínimo (idealmente < 5% del presupuesto).**
+
+- Para cada producto obligatorio y prioritario, asigna horas suficientes para maximizar el uso del presupuesto.
 - Calcula: subtotal = tarifa_hora × horas_asignadas
 - Suma todos los subtotales: total_productos = Σ subtotales de todos los productos.
-- **RESTRICCIÓN CRÍTICA**: total_productos NO PUEDE EXCEDER el Presupuesto Anual Calculado pero si inviertelo todo, que el saldo sea casi que nulo.
-- Si excede, reduce las horas asignadas iterativamente (empezando por prioritarios) hasta que total_productos ≤ presupuesto_anual.
-- Balancea la distribución considerando que puedes tener hasta 30 productos obligatorios.
+
+**RESTRICCIONES OBLIGATORIAS:**
+1. **NUNCA EXCEDER**: total_productos DEBE ser MENOR O IGUAL al presupuesto_anual (jamás pasarse)
+2. **MAXIMIZAR USO**: Debes utilizar la mayor cantidad posible del presupuesto. El porcentaje_utilizado debe estar entre 95% y 100%.
+3. **AJUSTAR HORAS**: Si después de asignar horas queda mucho saldo, AUMENTA las horas de los productos existentes o AGREGA más productos prioritarios hasta usar casi todo el presupuesto.
+4. **SI TE PASAS**: Reduce las horas de los productos prioritarios primero, luego de los obligatorios si es necesario.
+
+**Estrategia recomendada:**
+- Primero asigna productos obligatorios con horas mínimas necesarias
+- Luego asigna productos prioritarios
+- Calcula el saldo restante
+- Si el saldo es > 5% del presupuesto, aumenta horas o agrega más productos hasta que el saldo sea mínimo
 
 ## 7. CALCULAR RESUMEN
 - total_productos_obligatorios = Σ subtotales de productos obligatorios.
