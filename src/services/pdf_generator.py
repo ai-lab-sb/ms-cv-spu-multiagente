@@ -18,6 +18,10 @@ class PDFGenerator:
             template_dir = os.path.join(base_dir, "templates")
         
         self._template_dir = template_dir
+        self._base_dir = os.path.dirname(template_dir)  # Directorio raíz del proyecto
+        self._static_dir = os.path.join(self._base_dir, "static")
+        self._logo_path = os.path.join(self._static_dir, "bolivar-logo.png")
+        
         self._env = Environment(loader=FileSystemLoader(template_dir))
         
         # Registrar filtros personalizados
@@ -25,6 +29,7 @@ class PDFGenerator:
         self._env.filters['safe_value'] = self._safe_value
         
         print(f"[OK] PDFGenerator inicializado (templates: {template_dir})")
+        print(f"[OK] Logo path: {self._logo_path}")
     
     @staticmethod
     def _format_currency(value, default='$0'):
@@ -87,6 +92,9 @@ class PDFGenerator:
         prioritarios = propuesta.get("productos_prioritarios", [])
         valores = propuesta.get("valores_agregados", [])
         
+        # Usar file:// para que WeasyPrint pueda acceder al logo
+        logo_path = f"file:///{self._logo_path.replace(os.sep, '/')}"
+        
         return {
             "cliente": cliente,
             "perfil": perfil,
@@ -96,6 +104,7 @@ class PDFGenerator:
             "valores": valores,
             "meta": metadatos,
             "nombre_empresa": cliente.get("nombre_empresa", ""),
+            "logo_path": logo_path,
         }
     
     def guardar_pdf(self, data: Dict[str, Any], output_path: str) -> str:

@@ -8,7 +8,7 @@
         @page {
             size: A4;
             margin: 1.5cm;
-            margin-top: 2cm;
+            margin-top: 1.5cm;
         }
         
         body {
@@ -21,31 +21,50 @@
             line-height: 1.4;
         }
 
-        /* Header */
-        .header-main {
-            background: linear-gradient(135deg, #168a56 0%, #0d5c3a 100%);
-            color: #fff;
-            padding: 25px 20px;
-            text-align: center;
-            margin-bottom: 20px;
+        /* Evitar cortes en medio de elementos */
+        .section, table, tr, .presupuesto-card {
+            page-break-inside: avoid;
         }
 
-        .header-main h1 {
-            font-size: 22px;
+        /* Header con Logo */
+        .header-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: linear-gradient(135deg, #168a56 0%, #0d5c3a 100%);
+            color: #fff;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+
+        .header-logo {
+            width: 120px;
+            height: auto;
+        }
+
+        .header-title {
+            text-align: right;
+            flex: 1;
+            margin-left: 20px;
+        }
+
+        .header-title h1 {
+            font-size: 20px;
             margin: 0;
             font-weight: 600;
         }
 
-        .header-main .subtitle {
-            font-size: 14px;
+        .header-title .subtitle {
+            font-size: 12px;
             color: #FFDC5D;
-            margin-top: 5px;
+            margin-top: 3px;
         }
 
-        .header-main .company-name {
-            font-size: 18px;
+        .header-title .company-name {
+            font-size: 16px;
             color: #fff;
-            margin-top: 10px;
+            margin-top: 8px;
             font-weight: bold;
         }
 
@@ -71,12 +90,13 @@
 
         /* Info Grid */
         .info-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            display: flex;
+            flex-wrap: wrap;
             gap: 10px;
         }
 
         .info-item {
+            flex: 1 1 45%;
             padding: 8px;
             background-color: #f8f9fa;
             border-radius: 4px;
@@ -125,16 +145,18 @@
         }
 
         .presupuesto-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
             margin-top: 15px;
         }
 
         .presupuesto-item {
             background-color: rgba(255,255,255,0.15);
-            padding: 10px;
+            padding: 10px 20px;
             border-radius: 6px;
+            flex: 1;
+            max-width: 150px;
         }
 
         .presupuesto-item-label {
@@ -180,10 +202,6 @@
             background-color: #f8f9fa;
         }
 
-        tbody tr:hover {
-            background-color: #e9f7ef;
-        }
-
         .text-right {
             text-align: right;
         }
@@ -196,32 +214,6 @@
             background-color: #168a56 !important;
             color: #fff;
             font-weight: bold;
-        }
-
-        /* Valores agregados */
-        .valores-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 8px;
-        }
-
-        .valor-agregado-item {
-            background-color: #f0f9f4;
-            border: 1px solid #c3e6cb;
-            border-radius: 6px;
-            padding: 10px;
-            font-size: 10px;
-        }
-
-        .valor-agregado-item .tema {
-            font-weight: 600;
-            color: #168a56;
-            margin-bottom: 3px;
-        }
-
-        .valor-agregado-item .desc {
-            color: #666;
-            font-size: 9px;
         }
 
         /* Riesgos y obligaciones */
@@ -260,20 +252,18 @@
             font-weight: bold;
             color: #168a56;
         }
-
-        /* Page breaks */
-        .page-break {
-            page-break-before: always;
-        }
     </style>
 </head>
 <body>
 
-    <!-- Header Principal -->
-    <div class="header-main">
-        <h1>PROPUESTA COMERCIAL ARL</h1>
-        <div class="subtitle">Servicios de Prevención y Seguridad en el Trabajo</div>
-        <div class="company-name">{{ cliente.nombre_empresa | safe_value }}</div>
+    <!-- Header con Logo -->
+    <div class="header-container">
+        <img src="{{ logo_path }}" alt="Seguros Bolívar" class="header-logo">
+        <div class="header-title">
+            <h1>PROPUESTA COMERCIAL ARL</h1>
+            <div class="subtitle">Servicios de Prevención y Seguridad en el Trabajo</div>
+            <div class="company-name">{{ cliente.nombre_empresa | safe_value }}</div>
+        </div>
     </div>
 
     <!-- Información del Cliente -->
@@ -341,7 +331,7 @@
     </div>
 
     <!-- Productos Obligatorios -->
-    <div class="section page-break">
+    <div class="section">
         <div class="section-title">📦 Productos Obligatorios</div>
         <table>
             <thead>
@@ -357,7 +347,7 @@
                 {% for producto in obligatorios %}
                 <tr>
                     <td>{{ producto.descripcion_programas_de_prevencion | safe_value }}</td>
-                    <td>{{ producto.subcategoria | safe_value('General') }}</td>
+                    <td>{{ producto.categoria_de_programas | safe_value('General') }}</td>
                     <td class="text-center">{{ producto.horas_asignadas | safe_value(0) }}</td>
                     <td class="text-right">{{ producto.tarifa_hora | format_currency }}</td>
                     <td class="text-right">{{ producto.subtotal | format_currency }}</td>
@@ -388,7 +378,7 @@
                 {% for producto in prioritarios %}
                 <tr>
                     <td>{{ producto.descripcion_programas_de_prevencion | safe_value }}</td>
-                    <td>{{ producto.subcategoria | safe_value('General') }}</td>
+                    <td>{{ producto.categoria_de_programas | safe_value('General') }}</td>
                     <td class="text-center">{{ producto.horas_asignadas | safe_value(0) }}</td>
                     <td class="text-right">{{ producto.tarifa_hora | format_currency }}</td>
                     <td class="text-right">{{ producto.subtotal | format_currency }}</td>
@@ -403,7 +393,7 @@
     </div>
 
     <!-- Valores Agregados -->
-    <div class="section page-break">
+    <div class="section">
         <div class="section-title">🎁 Valores Agregados (Sin Costo)</div>
         <p style="color: #666; font-size: 10px; margin-bottom: 12px;">
             Los siguientes servicios se incluyen como beneficio adicional sin afectar su presupuesto de reinversión.
@@ -422,7 +412,7 @@
                 {% for valor in valores %}
                 <tr style="background-color: #f0f9f4;">
                     <td>{{ valor.descripcion_programas_de_prevencion | safe_value }}</td>
-                    <td>{{ valor.subcategoria | safe_value('General') }}</td>
+                    <td>{{ valor.categoria_de_programas | safe_value('VALOR AGREGADO') }}</td>
                     <td class="text-center">{{ valor.horas_asignadas | safe_value(1) }}</td>
                     <td class="text-right">{{ valor.tarifa_hora | format_currency }}</td>
                     <td class="text-right">{{ valor.subtotal | format_currency }}</td>
@@ -448,4 +438,3 @@
 
 </body>
 </html>
-
